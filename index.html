@@ -124,6 +124,33 @@
   footer .fbrand{font-family:'Fraunces',serif;font-weight:700;color:var(--cream);font-size:18px}
   footer .places{font-size:13px;max-width:42ch}
   footer .small{font-size:12px;color:#8aa295;width:100%;border-top:1px solid rgba(255,255,255,.08);padding-top:14px;margin-top:6px}
+
+  /* ---- Live Tonight dashboard ---- */
+  .lt-head{display:flex;align-items:center;gap:10px}
+  .lt-dot{width:10px;height:10px;border-radius:50%;background:#e23b3b;animation:ltpulse 1.6s infinite}
+  @keyframes ltpulse{0%{box-shadow:0 0 0 0 rgba(226,59,59,.55)}70%{box-shadow:0 0 0 9px rgba(226,59,59,0)}100%{box-shadow:0 0 0 0 rgba(226,59,59,0)}}
+  .lt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:14px}
+  .lt-card{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;position:relative;transition:box-shadow .15s ease,transform .15s ease}
+  .lt-card:hover{box-shadow:0 10px 28px rgba(14,44,36,.10);transform:translateY(-2px)}
+  .lt-card .when{font-size:12.5px;color:var(--canal);font-weight:600}
+  .lt-card h3{font-size:16px;font-weight:700;margin:4px 0 2px}
+  .lt-card .venue{font-size:13px;color:var(--muted)}
+  .lt-badge{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
+  .lt-badge.live{background:#e23b3b;color:#fff}
+  .lt-badge.soon{background:rgba(232,161,58,.2);color:#8a5a12}
+  .lt-empty{color:var(--muted);font-size:14px;padding:6px 0}
+
+  /* ---- Field correspondent video feed ---- */
+  .ff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:16px}
+  .ff-card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .ff-media{position:relative;aspect-ratio:16/9;background:#0e2c24}
+  .ff-media img,.ff-media iframe,.ff-media video{width:100%;height:100%;object-fit:cover;display:block;border:0}
+  .ff-type{position:absolute;top:8px;left:8px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:rgba(0,0,0,.62);color:#fff;z-index:2}
+  .ff-type.live{background:#e23b3b}
+  .ff-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;text-decoration:none;text-shadow:0 2px 10px rgba(0,0,0,.6);z-index:2}
+  .ff-body{padding:12px 14px}
+  .ff-body h3{font-size:15px;font-weight:700;margin-bottom:3px}
+  .ff-corr{font-size:12.5px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -226,6 +253,15 @@
       </div>
     </section>
 
+    <!-- LIVE TONIGHT DASHBOARD -->
+    <section id="tonight">
+      <div class="sec-head">
+        <h2 class="lt-head"><span class="lt-dot"></span> Live Tonight</h2>
+        <span class="note">Happening now &amp; later tonight across the Valley</span>
+      </div>
+      <div class="lt-grid" id="lt-grid"><div class="lt-empty">Loading tonight&rsquo;s lineup&hellip;</div></div>
+    </section>
+
     <!-- LOWER: Valley headlines + Eat -->
     <section style="padding-top:8px">
       <div class="cols">
@@ -272,6 +308,15 @@
           <p>The Stanley Theatre, Munson, and where to catch live music around the Valley.</p>
         </a>
       </div>
+    </section>
+
+    <!-- FIELD CORRESPONDENT VIDEO FEED -->
+    <section id="field">
+      <div class="sec-head">
+        <h2>🎥 Field Correspondents</h2>
+        <span class="note">Video from around the Mohawk Valley</span>
+      </div>
+      <div class="ff-grid" id="ff-grid"><div class="lt-empty">Loading the video feed&hellip;</div></div>
     </section>
 
     <!-- Subscribe -->
@@ -341,6 +386,56 @@
     }
     setTimeout(launch,400); if(!reduce){setTimeout(function(){launch();},1100);}
     requestAnimationFrame(frame);
+  })();
+  </script>
+
+  <!-- Live Tonight + Field feed renderers (vanilla, reads /data/*.json) -->
+  <script>
+  (function(){
+    function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function fmt(iso){try{return new Date(iso).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});}catch(e){return '';}}
+    // ----- Live Tonight -----
+    fetch('data/live-tonight.json').then(function(r){return r.json();}).then(function(rows){
+      var g=document.getElementById('lt-grid'); if(!g) return;
+      var now=new Date();
+      var today=rows.filter(function(e){return new Date(e.startsAt).toDateString()===now.toDateString();})
+                    .sort(function(a,b){return new Date(a.startsAt)-new Date(b.startsAt);});
+      if(!today.length){g.innerHTML='<div class="lt-empty">Nothing on the board for tonight yet \u2014 check back soon.</div>';return;}
+      g.innerHTML=today.map(function(e){
+        var st=new Date(e.startsAt), en=e.endsAt?new Date(e.endsAt):null;
+        var live=now>=st && (!en||now<=en);
+        var soon=!live && (st-now)>0 && (st-now)<3*3600*1000;
+        var badge=live?'<span class="lt-badge live">Live now</span>':(soon?'<span class="lt-badge soon">Soon</span>':'');
+        var tag=e.url?' target="_blank" rel="noopener"':'';
+        return '<a class="lt-card" href="'+esc(e.url||'#')+'"'+tag+'>'+badge
+          +'<div class="when">'+fmt(e.startsAt)+(e.neighborhood?' \u00b7 '+esc(e.neighborhood):'')+'</div>'
+          +'<h3>'+esc(e.title)+'</h3><div class="venue">'+esc(e.venue||'')+'</div></a>';
+      }).join('');
+    }).catch(function(){var g=document.getElementById('lt-grid');if(g)g.innerHTML='<div class="lt-empty">Tonight&rsquo;s board is unavailable right now.</div>';});
+    // ----- Field correspondent feed -----
+    fetch('data/field-videos.json').then(function(r){return r.json();}).then(function(rows){
+      var g=document.getElementById('ff-grid'); if(!g) return;
+      rows=rows.slice().sort(function(a,b){return new Date(b.publishedAt||0)-new Date(a.publishedAt||0);});
+      if(!rows.length){g.innerHTML='<div class="lt-empty">No clips yet.</div>';return;}
+      g.innerHTML=rows.map(function(v){
+        var media='', label=v.type, cls='ff-type';
+        if(v.type==='embed' && v.embed){
+          media='<a class="ff-play" href="'+esc(v.embed.url)+'" target="_blank" rel="noopener" aria-label="Play">\u25B6</a><img loading="lazy" alt="" src="'+esc(v.thumbnail||'')+'">';
+        } else if(v.type==='upload' && v.file){
+          media='<video controls preload="none" poster="'+esc(v.file.poster||v.thumbnail||'')+'" src="'+esc(v.file.src)+'"></video>';
+        } else if(v.type==='live' && v.live){
+          var on=v.live.status==='live'; label=on?'Live':esc(v.live.status); if(on) cls='ff-type live';
+          var play=(on && v.live.streamUrl)?'<a class="ff-play" href="'+esc(v.live.streamUrl)+'" target="_blank" rel="noopener">\u25B6</a>':'';
+          media=play+'<img loading="lazy" alt="" src="'+esc(v.thumbnail||'')+'">';
+        } else {
+          media='<img loading="lazy" alt="" src="'+esc(v.thumbnail||'')+'">';
+        }
+        var who=(v.correspondent&&v.correspondent.name)||'Correspondent';
+        var loc=(v.correspondent&&v.correspondent.location)?' \u00b7 '+esc(v.correspondent.location):'';
+        return '<div class="ff-card"><div class="ff-media"><span class="'+cls+'">'+esc(label)+'</span>'+media+'</div>'
+          +'<div class="ff-body"><h3>'+esc(v.title)+'</h3><div class="ff-corr">'+esc(who)+loc+'</div></div></div>';
+      }).join('');
+    }).catch(function(){var g=document.getElementById('ff-grid');if(g)g.innerHTML='<div class="lt-empty">The video feed is unavailable right now.</div>';});
   })();
   </script>
 </body>

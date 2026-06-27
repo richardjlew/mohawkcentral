@@ -1,0 +1,62 @@
+[
+  {
+    "id": "evt_0001",
+    "title": "Open Mic Night",
+    "venue": "Nail Creek Pub & Brewery",
+    "neighborhood": "Utica",
+    "category": "music",
+    "startsAt": "2026-06-27T13:44:38.480103+00:00",
+    "endsAt": "2026-06-27T16:19:38.480103+00:00",
+    "price": "Free",
+    "url": "https://www.facebook.com/nailcreekpub",
+    "status": "scheduled"
+  },
+  {
+    "id": "evt_0002",
+    "title": "Live Jazz Trio",
+    "venue": "The Tailor and the Cook",
+    "neighborhood": "Utica",
+    "category": "music",
+    "startsAt": "2026-06-27T15:04:38.480103+00:00",
+    "endsAt": "2026-06-27T18:04:38.480103+00:00",
+    "price": "$",
+    "url": "",
+    "status": "scheduled"
+  },
+  {
+    "id": "evt_0003",
+    "title": "Sunset Paddle on the Erie Canal",
+    "venue": "Aqua Vino Dock",
+    "neighborhood": "Utica",
+    "category": "outdoors",
+    "startsAt": "2026-06-27T17:19:38.480103+00:00",
+    "endsAt": "2026-06-27T19:19:38.480103+00:00",
+    "price": "$$",
+    "url": "",
+    "status": "scheduled"
+  },
+  {
+    "id": "evt_0004",
+    "title": "Trivia Night",
+    "venue": "Woodland Farm Brewery",
+    "neighborhood": "Marcy",
+    "category": "community",
+    "startsAt": "2026-06-27T15:49:38.480103+00:00",
+    "endsAt": "2026-06-27T17:49:38.480103+00:00",
+    "price": "Free",
+    "url": "",
+    "status": "scheduled"
+  },
+  {
+    "id": "evt_0005",
+    "title": "Saranac Summer Concert",
+    "venue": "FX Matt Brewery",
+    "neighborhood": "Utica",
+    "category": "music",
+    "startsAt": "2026-06-28T16:19:38.480103+00:00",
+    "endsAt": "2026-06-28T19:19:38.480103+00:00",
+    "price": "$$",
+    "url": "",
+    "status": "scheduled"
+  }
+]
