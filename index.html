@@ -151,6 +151,36 @@
   .ff-body{padding:12px 14px}
   .ff-body h3{font-size:15px;font-weight:700;margin-bottom:3px}
   .ff-corr{font-size:12.5px;color:var(--muted)}
+
+  /* ---- Local school streams ---- */
+  .ss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .ss-card{display:flex;flex-direction:column;gap:5px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+  .ss-school{font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--canal)}
+  .ss-card h3{font-size:15.5px;font-weight:700;line-height:1.3}
+  .ss-type{font-size:12.5px;color:var(--muted)}
+  .ss-foot{margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .ss-time{font-size:14px;font-weight:700;color:var(--ink)}
+  .ss-plat{font-size:11px;color:var(--muted)}
+  .ss-live{display:inline-flex;align-items:center;gap:7px;background:#e23b3b;color:#fff;font-weight:800;font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding:7px 12px;border-radius:999px;text-decoration:none}
+  .ss-live .blink{width:7px;height:7px;border-radius:50%;background:#fff;animation:ltpulse 1.4s infinite}
+
+  /* ---- Vertical clips carousel + modal ---- */
+  .vc-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 14px;-webkit-overflow-scrolling:touch}
+  .vc-row::-webkit-scrollbar{height:8px}
+  .vc-row::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+  .vc-card{flex:0 0 auto;width:172px;scroll-snap-align:start;cursor:pointer;border:none;background:transparent;padding:0;text-align:left;font-family:inherit}
+  .vc-thumb{position:relative;width:172px;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#0e2c24;border:1px solid var(--line)}
+  .vc-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .vc-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+  .vc-meta{padding:8px 2px 0}
+  .vc-meta h3{font-size:13.5px;font-weight:700;line-height:1.25;margin-bottom:2px}
+  .vc-meta .vc-corr{font-size:12px;color:var(--muted)}
+  .vc-modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(6,18,38,.82)}
+  .vc-modal.open{display:flex}
+  .vc-modal-inner{position:relative;width:min(92vw,360px);aspect-ratio:9/16;background:#000;border-radius:16px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5)}
+  .vc-modal-inner video{width:100%;height:100%;object-fit:contain;background:#000;display:block}
+  .vc-close{position:absolute;top:10px;right:10px;z-index:2;width:36px;height:36px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:20px;line-height:1;cursor:pointer}
+  .vc-unmute{position:absolute;bottom:12px;left:12px;z-index:2;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -262,6 +292,15 @@
       <div class="lt-grid" id="lt-grid"><div class="lt-empty">Loading tonight&rsquo;s lineup&hellip;</div></div>
     </section>
 
+    <!-- LOCAL SCHOOL STREAMS -->
+    <section id="schools">
+      <div class="sec-head">
+        <h2>📺 Watch Live: Local Schools</h2>
+        <span class="note">Stream tonight&rsquo;s games, shows &amp; ceremonies</span>
+      </div>
+      <div class="ss-grid" id="ss-grid"><div class="lt-empty">Loading school streams&hellip;</div></div>
+    </section>
+
     <!-- LOWER: Valley headlines + Eat -->
     <section style="padding-top:8px">
       <div class="cols">
@@ -317,6 +356,15 @@
         <span class="note">Video from around the Mohawk Valley</span>
       </div>
       <div class="ff-grid" id="ff-grid"><div class="lt-empty">Loading the video feed&hellip;</div></div>
+    </section>
+
+    <!-- VERTICAL FIELD CLIPS CAROUSEL -->
+    <section id="clips">
+      <div class="sec-head">
+        <h2>📱 Quick Clips</h2>
+        <span class="note">60-second vertical dispatches &mdash; tap to play</span>
+      </div>
+      <div class="vc-row" id="vc-row"><div class="lt-empty">Loading clips&hellip;</div></div>
     </section>
 
     <!-- Subscribe -->
@@ -436,6 +484,60 @@
           +'<div class="ff-body"><h3>'+esc(v.title)+'</h3><div class="ff-corr">'+esc(who)+loc+'</div></div></div>';
       }).join('');
     }).catch(function(){var g=document.getElementById('ff-grid');if(g)g.innerHTML='<div class="lt-empty">The video feed is unavailable right now.</div>';});
+  })();
+  </script>
+
+  <!-- Vertical clip modal player -->
+  <div class="vc-modal" id="vc-modal" aria-hidden="true">
+    <div class="vc-modal-inner">
+      <button class="vc-close" id="vc-close" aria-label="Close">×</button>
+      <video id="vc-video" playsinline muted controls preload="none"></video>
+      <button class="vc-unmute" id="vc-unmute">🔊 Tap for sound</button>
+    </div>
+  </div>
+
+  <!-- School streams + vertical clips renderers (vanilla) -->
+  <script>
+  (function(){
+    function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function fmt(iso){try{return new Date(iso).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});}catch(e){return '';}}
+    // ----- Local school streams -----
+    fetch('data/school-streams.json').then(function(r){return r.json();}).then(function(rows){
+      var g=document.getElementById('ss-grid'); if(!g) return;
+      rows=rows.slice().sort(function(a,b){return new Date(a.scheduledStartTime)-new Date(b.scheduledStartTime);});
+      if(!rows.length){g.innerHTML='<div class="lt-empty">No school streams scheduled yet.</div>';return;}
+      g.innerHTML=rows.map(function(e){
+        var foot = e.isLive
+          ? '<a class="ss-live" href="'+esc(e.streamUrl)+'" target="_blank" rel="noopener"><span class="blink"></span>\uD83D\uDD34 Watch Live</a>'
+          : '<span class="ss-time">'+fmt(e.scheduledStartTime)+'</span>';
+        return '<div class="ss-card"><div class="ss-school">'+esc(e.schoolName)+'</div>'
+          +'<h3>'+esc(e.eventTitle)+'</h3>'
+          +'<div class="ss-type">'+esc(e.eventType)+'</div>'
+          +'<div class="ss-foot">'+foot+'<span class="ss-plat">'+esc(e.streamPlatform)+'</span></div></div>';
+      }).join('');
+    }).catch(function(){var g=document.getElementById('ss-grid');if(g)g.innerHTML='<div class="lt-empty">School streams are unavailable right now.</div>';});
+    // ----- Vertical clips + modal -----
+    var modal=document.getElementById('vc-modal'), vid=document.getElementById('vc-video'),
+        closeBtn=document.getElementById('vc-close'), unmute=document.getElementById('vc-unmute');
+    function openClip(src){ if(!modal||!vid) return; vid.src=src; vid.muted=true; if(unmute)unmute.textContent='\uD83D\uDD0A Tap for sound'; modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); var p=vid.play(); if(p&&p.catch)p.catch(function(){}); }
+    function closeClip(){ if(!modal||!vid) return; modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); vid.pause(); vid.removeAttribute('src'); vid.load(); }
+    if(closeBtn)closeBtn.addEventListener('click',closeClip);
+    if(modal)modal.addEventListener('click',function(e){ if(e.target===modal) closeClip(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeClip(); });
+    if(unmute)unmute.addEventListener('click',function(){ vid.muted=!vid.muted; unmute.textContent=vid.muted?'\uD83D\uDD0A Tap for sound':'\uD83D\uDD07 Mute'; });
+    fetch('data/field-vertical.json').then(function(r){return r.json();}).then(function(rows){
+      var g=document.getElementById('vc-row'); if(!g) return;
+      rows=rows.slice().sort(function(a,b){return new Date(b.dateCreated||0)-new Date(a.dateCreated||0);});
+      if(!rows.length){g.innerHTML='<div class="lt-empty">No clips yet.</div>';return;}
+      g.innerHTML=rows.map(function(v){
+        return '<button class="vc-card" data-src="'+esc(v.videoUrl)+'">'
+          +'<div class="vc-thumb"><img loading="lazy" alt="" src="'+esc(v.thumbnailUrl||'')+'"><span class="vc-play">\u25B6</span></div>'
+          +'<div class="vc-meta"><h3>'+esc(v.title)+'</h3><div class="vc-corr">'+esc(v.correspondentName||'')+'</div></div></button>';
+      }).join('');
+      Array.prototype.forEach.call(g.querySelectorAll('.vc-card'),function(btn){
+        btn.addEventListener('click',function(){ openClip(btn.getAttribute('data-src')); });
+      });
+    }).catch(function(){var g=document.getElementById('vc-row');if(g)g.innerHTML='<div class="lt-empty">Clips are unavailable right now.</div>';});
   })();
   </script>
 </body>
