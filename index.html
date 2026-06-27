@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mohawk Central — What's happening in the Mohawk Valley</title>
+<meta name="description" content="The free weekly email for the Mohawk Valley. Events, food, games, and what's worth your weekend in Utica, Rome, and beyond." />
+<meta property="og:title" content="Mohawk Central" />
+<meta property="og:description" content="The free weekly email for the Mohawk Valley — events, food, and what's worth your weekend." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --evergreen:#13392f;
+    --evergreen-2:#1d4f41;
+    --canal:#1f6f8b;
+    --amber:#e8a13a;
+    --cream:#f6f1e7;
+    --ink:#1a211d;
+    --muted:#5c6b62;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 24px}
+
+  /* Hero */
+  header.hero{
+    position:relative;
+    color:var(--cream);
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(31,111,139,.35), transparent 60%),
+      linear-gradient(160deg, var(--evergreen) 0%, var(--evergreen-2) 55%, #0e2c24 100%);
+    overflow:hidden;
+  }
+  /* layered "rolling valley" silhouettes */
+  .ridge{position:absolute;left:0;right:0;bottom:-1px;width:100%;display:block}
+  .ridge.r1{opacity:.18}
+  .ridge.r2{opacity:.30}
+  .ridge.r3{opacity:1;color:var(--cream)}
+  .hero-inner{position:relative;z-index:2;padding:64px 0 120px;text-align:center}
+  .kicker{
+    display:inline-block;
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--amber);font-weight:600;margin-bottom:18px;
+  }
+  .logo{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:clamp(40px,8vw,68px);line-height:1.02;letter-spacing:-.01em;
+  }
+  .logo .v{color:var(--amber)}
+  .tagline{
+    font-family:'Fraunces',serif;font-weight:500;font-size:clamp(18px,3.4vw,23px);
+    margin:18px auto 0;max-width:30ch;color:#e9efe7;
+  }
+
+  /* Signup card */
+  .card{
+    position:relative;z-index:3;
+    background:#fff;border-radius:18px;
+    box-shadow:0 18px 50px rgba(14,44,36,.18);
+    padding:32px 28px;margin:-72px auto 0;max-width:520px;
+    border:1px solid rgba(19,57,47,.07);
+  }
+  .badge{
+    display:inline-block;margin-bottom:14px;
+    background:rgba(31,111,139,.10);color:var(--canal);
+    font-size:12.5px;font-weight:600;letter-spacing:.01em;
+    padding:6px 12px;border-radius:999px;border:1px solid rgba(31,111,139,.18);
+  }
+  .card h2{font-family:'Fraunces',serif;font-size:24px;font-weight:600;margin-bottom:6px}
+  .card p.sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  form{display:flex;gap:10px;flex-wrap:wrap}
+  input[type=email]{
+    flex:1 1 220px;min-width:0;
+    padding:14px 16px;font-size:16px;
+    border:1.5px solid #d8d8cf;border-radius:10px;background:#fafaf6;
+    font-family:inherit;
+  }
+  input[type=email]:focus{outline:none;border-color:var(--canal);background:#fff}
+  button{
+    flex:0 0 auto;
+    background:var(--amber);color:#3a2606;font-weight:600;font-size:16px;
+    border:none;border-radius:10px;padding:14px 22px;cursor:pointer;
+    font-family:inherit;transition:transform .06s ease,background .2s ease;
+  }
+  button:hover{background:#f0ad45}
+  button:active{transform:translateY(1px)}
+  .fineprint{font-size:12.5px;color:var(--muted);margin-top:12px}
+
+  /* What you'll get */
+  section.value{padding:64px 0 24px}
+  section.value h3{
+    font-family:'Fraunces',serif;text-align:center;font-size:22px;font-weight:600;
+    margin-bottom:28px;color:var(--evergreen);
+  }
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .tile{
+    background:#fff;border:1px solid rgba(19,57,47,.08);border-radius:14px;
+    padding:22px 18px;text-align:center;
+  }
+  .tile .emoji{font-size:26px;display:block;margin-bottom:10px}
+  .tile h4{font-size:15px;font-weight:600;margin-bottom:4px}
+  .tile p{font-size:13.5px;color:var(--muted)}
+
+  /* Footer */
+  footer{padding:48px 0 56px;text-align:center;color:var(--muted);font-size:13.5px}
+  footer .places{font-weight:600;color:var(--evergreen);margin-bottom:6px}
+  footer a{color:var(--canal);text-decoration:none}
+
+  @media(max-width:560px){
+    .grid{grid-template-columns:1fr;gap:12px}
+    .hero-inner{padding:48px 0 110px}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">Utica · Rome · the Mohawk Valley</span>
+      <h1 class="logo">Mohawk&nbsp;Central<span class="v">.</span></h1>
+      <p class="tagline">The one weekly email that tells you what's worth your weekend in the Valley.</p>
+    </div>
+    <!-- rolling ridge silhouettes -->
+    <svg class="ridge r1" viewBox="0 0 1440 120" preserveAspectRatio="none" height="90" fill="currentColor"><path d="M0,80 C240,20 480,110 720,70 C960,30 1200,100 1440,55 L1440,120 L0,120 Z"/></svg>
+    <svg class="ridge r2" viewBox="0 0 1440 120" preserveAspectRatio="none" height="70" fill="currentColor"><path d="M0,95 C300,55 560,115 820,80 C1080,45 1260,100 1440,75 L1440,120 L0,120 Z"/></svg>
+    <svg class="ridge r3" viewBox="0 0 1440 120" preserveAspectRatio="none" height="46" fill="currentColor"><path d="M0,108 C360,85 600,118 900,100 C1140,86 1280,112 1440,98 L1440,120 L0,120 Z"/></svg>
+  </header>
+
+  <main class="wrap">
+    <!-- Signup card -->
+    <div class="card">
+      <span class="badge">🚧 Launching this summer — get on the list first</span>
+      <h2>Get the Valley in your inbox</h2>
+      <p class="sub">Free. Once a week. The events, food, games, and openings worth knowing about — nothing else. Sign up now and you'll get the very first issue.</p>
+
+      <!-- Buttondown embed form (account: mohawkcentral) -->
+      <form
+        action="https://buttondown.com/api/emails/embed-subscribe/mohawkcentral"
+        method="post"
+        target="_blank"
+      >
+        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required />
+        <button type="submit">Sign me up</button>
+      </form>
+      <p class="fineprint">No spam, no selling your address. Unsubscribe anytime.</p>
+    </div>
+
+    <!-- What you'll get -->
+    <section class="value">
+      <h3>What lands in your inbox</h3>
+      <div class="grid">
+        <div class="tile">
+          <span class="emoji">📅</span>
+          <h4>The weekend ahead</h4>
+          <p>Concerts, festivals, markets, and Comets &amp; Nexus Center games — all in one scroll.</p>
+        </div>
+        <div class="tile">
+          <span class="emoji">🍝</span>
+          <h4>Where to eat</h4>
+          <p>New openings, riggies &amp; greens worth the drive, and Valley food news.</p>
+        </div>
+        <div class="tile">
+          <span class="emoji">📣</span>
+          <h4>What's changing</h4>
+          <p>The chip boom, new businesses, and the stuff that actually affects the Valley.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="places">Covering Utica, Rome, New Hartford, Whitesboro &amp; the whole Mohawk Valley</div>
+    <div>© <span id="yr"></span> Mohawk Central · mohawkcentral.com</div>
+  </footer>
+
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
