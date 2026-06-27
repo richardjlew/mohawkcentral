@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mohawk Central — What's happening in the Mohawk Valley</title>
-<meta name="description" content="The free weekly email for the Mohawk Valley. Events, food, games, and what's worth your weekend in Utica, Rome, and beyond." />
+<title>Mohawk Central — The front page of the Mohawk Valley</title>
+<meta name="description" content="What's worth your time in the Mohawk Valley this week — events, food, and local news for Utica, Rome, and beyond. Free weekly email." />
 <meta property="og:title" content="Mohawk Central" />
-<meta property="og:description" content="The free weekly email for the Mohawk Valley — events, food, and what's worth your weekend." />
+<meta property="og:description" content="The front page of the Mohawk Valley — what's worth your time this week." />
 <meta property="og:type" content="website" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
     --evergreen:#13392f;
@@ -18,170 +18,287 @@
     --canal:#1f6f8b;
     --amber:#e8a13a;
     --cream:#f6f1e7;
+    --paper:#fbf8f1;
     --ink:#1a211d;
     --muted:#5c6b62;
+    --line:rgba(19,57,47,.12);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{
-    font-family:'Inter',system-ui,-apple-system,sans-serif;
-    color:var(--ink);
-    background:var(--cream);
-    line-height:1.6;
-  }
-  .wrap{max-width:680px;margin:0 auto;padding:0 24px}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
 
-  /* Hero */
-  header.hero{
-    position:relative;
-    color:var(--cream);
-    background:
-      radial-gradient(120% 80% at 50% 0%, rgba(31,111,139,.35), transparent 60%),
-      linear-gradient(160deg, var(--evergreen) 0%, var(--evergreen-2) 55%, #0e2c24 100%);
-    overflow:hidden;
-  }
-  /* layered "rolling valley" silhouettes */
-  .ridge{position:absolute;left:0;right:0;bottom:-1px;width:100%;display:block}
-  .ridge.r1{opacity:.18}
-  .ridge.r2{opacity:.30}
-  .ridge.r3{opacity:1;color:var(--cream)}
-  .hero-inner{position:relative;z-index:2;padding:64px 0 120px;text-align:center}
-  .kicker{
-    display:inline-block;
-    font-size:13px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--amber);font-weight:600;margin-bottom:18px;
-  }
-  .logo{
-    font-family:'Fraunces',serif;font-weight:700;
-    font-size:clamp(40px,8vw,68px);line-height:1.02;letter-spacing:-.01em;
-  }
-  .logo .v{color:var(--amber)}
-  .tagline{
-    font-family:'Fraunces',serif;font-weight:500;font-size:clamp(18px,3.4vw,23px);
-    margin:18px auto 0;max-width:30ch;color:#e9efe7;
-  }
+  /* ---- Header ---- */
+  .topbar{position:sticky;top:0;z-index:50;background:var(--evergreen);color:var(--cream);border-bottom:1px solid rgba(255,255,255,.08)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .brand{font-family:'Fraunces',serif;font-weight:700;font-size:22px;letter-spacing:-.01em;text-decoration:none;color:var(--cream)}
+  .brand .v{color:var(--amber)}
+  .nav{display:flex;gap:24px;align-items:center}
+  .nav a{font-size:14.5px;font-weight:500;color:#dfe7e0;text-decoration:none}
+  .nav a:hover{color:#fff}
+  .nav .cta{background:var(--amber);color:#3a2606;font-weight:600;padding:8px 16px;border-radius:8px}
+  .nav .cta:hover{background:#f0ad45;color:#3a2606}
+  @media(max-width:680px){.nav a:not(.cta){display:none}}
 
-  /* Signup card */
-  .card{
-    position:relative;z-index:3;
-    background:#fff;border-radius:18px;
-    box-shadow:0 18px 50px rgba(14,44,36,.18);
-    padding:32px 28px;margin:-72px auto 0;max-width:520px;
-    border:1px solid rgba(19,57,47,.07);
-  }
-  .badge{
-    display:inline-block;margin-bottom:14px;
-    background:rgba(31,111,139,.10);color:var(--canal);
-    font-size:12.5px;font-weight:600;letter-spacing:.01em;
-    padding:6px 12px;border-radius:999px;border:1px solid rgba(31,111,139,.18);
-  }
-  .card h2{font-family:'Fraunces',serif;font-size:24px;font-weight:600;margin-bottom:6px}
-  .card p.sub{color:var(--muted);font-size:15px;margin-bottom:20px}
-  form{display:flex;gap:10px;flex-wrap:wrap}
-  input[type=email]{
-    flex:1 1 220px;min-width:0;
-    padding:14px 16px;font-size:16px;
-    border:1.5px solid #d8d8cf;border-radius:10px;background:#fafaf6;
-    font-family:inherit;
-  }
-  input[type=email]:focus{outline:none;border-color:var(--canal);background:#fff}
-  button{
-    flex:0 0 auto;
-    background:var(--amber);color:#3a2606;font-weight:600;font-size:16px;
-    border:none;border-radius:10px;padding:14px 22px;cursor:pointer;
-    font-family:inherit;transition:transform .06s ease,background .2s ease;
-  }
-  button:hover{background:#f0ad45}
-  button:active{transform:translateY(1px)}
-  .fineprint{font-size:12.5px;color:var(--muted);margin-top:12px}
+  /* ---- Masthead ---- */
+  .masthead{background:linear-gradient(160deg,var(--evergreen) 0%,var(--evergreen-2) 60%,#0e2c24 100%);color:var(--cream);position:relative;overflow:hidden}
+  .masthead .wrap{padding:46px 22px 58px;position:relative;z-index:2}
+  .dateline{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:600}
+  .masthead h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(34px,6vw,56px);line-height:1.03;margin:12px 0 10px;max-width:16ch}
+  .masthead p{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(16px,2.4vw,20px);color:#e7eee7;max-width:46ch}
+  .ridge{position:absolute;left:0;right:0;bottom:-1px;width:100%;display:block;color:var(--paper)}
 
-  /* What you'll get */
-  section.value{padding:64px 0 24px}
-  section.value h3{
-    font-family:'Fraunces',serif;text-align:center;font-size:22px;font-weight:600;
-    margin-bottom:28px;color:var(--evergreen);
-  }
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .tile{
-    background:#fff;border:1px solid rgba(19,57,47,.08);border-radius:14px;
-    padding:22px 18px;text-align:center;
-  }
-  .tile .emoji{font-size:26px;display:block;margin-bottom:10px}
-  .tile h4{font-size:15px;font-weight:600;margin-bottom:4px}
-  .tile p{font-size:13.5px;color:var(--muted)}
+  /* ---- Section scaffolding ---- */
+  section{padding:48px 0}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--evergreen);padding-bottom:8px;margin-bottom:26px}
+  .sec-head h2{font-family:'Fraunces',serif;font-weight:700;font-size:26px;color:var(--evergreen)}
+  .sec-head .note{font-size:13px;color:var(--muted)}
 
-  /* Footer */
-  footer{padding:48px 0 56px;text-align:center;color:var(--muted);font-size:13.5px}
-  footer .places{font-weight:600;color:var(--evergreen);margin-bottom:6px}
-  footer a{color:var(--canal);text-decoration:none}
+  /* ---- This Week (events) ---- */
+  .events{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(max-width:680px){.events{grid-template-columns:1fr}}
+  .event{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;gap:16px;transition:box-shadow .15s ease,transform .15s ease}
+  .event:hover{box-shadow:0 10px 28px rgba(14,44,36,.10);transform:translateY(-2px)}
+  .datechip{flex:0 0 auto;width:58px;text-align:center;background:var(--cream);border:1px solid var(--line);border-radius:10px;padding:8px 6px;height:fit-content}
+  .datechip .d{font-family:'Fraunces',serif;font-weight:700;font-size:22px;line-height:1;color:var(--evergreen)}
+  .datechip .m{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--canal);font-weight:600;margin-top:3px}
+  .event h3{font-size:16.5px;font-weight:700;margin-bottom:3px}
+  .event .where{font-size:13px;color:var(--canal);font-weight:600;margin-bottom:6px}
+  .event p{font-size:13.5px;color:var(--muted)}
+  .tag{display:inline-block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:999px;margin-bottom:8px}
+  .tag.headline{background:rgba(232,161,58,.18);color:#8a5a12}
+  .tag.music{background:rgba(31,111,139,.14);color:var(--canal)}
+  .tag.family{background:rgba(29,79,65,.12);color:var(--evergreen-2)}
 
-  @media(max-width:560px){
-    .grid{grid-template-columns:1fr;gap:12px}
-    .hero-inner{padding:48px 0 110px}
-  }
+  /* ---- Two-column lower area ---- */
+  .cols{display:grid;grid-template-columns:1.3fr 1fr;gap:40px}
+  @media(max-width:780px){.cols{grid-template-columns:1fr;gap:0}}
+
+  /* Valley headlines */
+  .headline-list{list-style:none}
+  .headline-list li{padding:14px 0;border-bottom:1px solid var(--line)}
+  .headline-list li:last-child{border-bottom:none}
+  .headline-list a{text-decoration:none;display:block}
+  .headline-list h3{font-size:16px;font-weight:600;line-height:1.35}
+  .headline-list a:hover h3{color:var(--canal)}
+  .headline-list .src{font-size:12px;color:var(--muted);margin-top:3px}
+
+  /* Eat list */
+  .eat-item{padding:14px 0;border-bottom:1px solid var(--line)}
+  .eat-item:last-child{border-bottom:none}
+  .eat-item h3{font-size:15.5px;font-weight:700;margin-bottom:2px}
+  .eat-item p{font-size:13.5px;color:var(--muted)}
+
+  /* Do / guides */
+  .guides{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:680px){.guides{grid-template-columns:1fr}}
+  .guide{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;transition:box-shadow .15s ease,transform .15s ease}
+  .guide:hover{box-shadow:0 10px 28px rgba(14,44,36,.10);transform:translateY(-2px)}
+  .guide.feature{background:linear-gradient(150deg,var(--canal),#17576e);color:#fff;border:none}
+  .guide .emoji{font-size:24px;display:block;margin-bottom:10px}
+  .guide h3{font-size:16px;font-weight:700;margin-bottom:4px}
+  .guide p{font-size:13px;color:var(--muted)}
+  .guide.feature p{color:#dcecf1}
+
+  /* ---- Newsletter band ---- */
+  .signup{background:var(--evergreen);color:var(--cream);border-radius:20px;padding:40px 30px;text-align:center;margin:10px 0}
+  .signup .badge{display:inline-block;margin-bottom:14px;background:rgba(232,161,58,.16);color:var(--amber);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid rgba(232,161,58,.3)}
+  .signup h2{font-family:'Fraunces',serif;font-weight:700;font-size:28px;margin-bottom:8px;color:#fff}
+  .signup p.sub{color:#dfe7e0;font-size:15px;max-width:44ch;margin:0 auto 22px}
+  .signup form{display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+  .signup input[type=email]{flex:1 1 220px;min-width:0;padding:14px 16px;font-size:16px;border:none;border-radius:10px;font-family:inherit}
+  .signup button{flex:0 0 auto;background:var(--amber);color:#3a2606;font-weight:600;font-size:16px;border:none;border-radius:10px;padding:14px 24px;cursor:pointer;font-family:inherit}
+  .signup button:hover{background:#f0ad45}
+  .signup .fine{font-size:12px;color:#aebcb2;margin-top:12px}
+
+  /* ---- Footer ---- */
+  footer{background:#0e2c24;color:#bcccc2;padding:40px 0;margin-top:48px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+  footer .fbrand{font-family:'Fraunces',serif;font-weight:700;color:var(--cream);font-size:18px}
+  footer .places{font-size:13px;max-width:42ch}
+  footer .small{font-size:12px;color:#8aa295;width:100%;border-top:1px solid rgba(255,255,255,.08);padding-top:14px;margin-top:6px}
 </style>
 </head>
 <body>
 
-  <header class="hero">
-    <div class="wrap hero-inner">
-      <span class="kicker">Utica · Rome · the Mohawk Valley</span>
-      <h1 class="logo">Mohawk&nbsp;Central<span class="v">.</span></h1>
-      <p class="tagline">The one weekly email that tells you what's worth your weekend in the Valley.</p>
+  <!-- Header -->
+  <div class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top">Mohawk Central<span class="v">.</span></a>
+      <nav class="nav">
+        <a href="#week">This Week</a>
+        <a href="#valley">The Valley</a>
+        <a href="#eat">Eat</a>
+        <a href="#do">Do</a>
+        <a href="#subscribe" class="cta">Subscribe</a>
+      </nav>
     </div>
-    <!-- rolling ridge silhouettes -->
-    <svg class="ridge r1" viewBox="0 0 1440 120" preserveAspectRatio="none" height="90" fill="currentColor"><path d="M0,80 C240,20 480,110 720,70 C960,30 1200,100 1440,55 L1440,120 L0,120 Z"/></svg>
-    <svg class="ridge r2" viewBox="0 0 1440 120" preserveAspectRatio="none" height="70" fill="currentColor"><path d="M0,95 C300,55 560,115 820,80 C1080,45 1260,100 1440,75 L1440,120 L0,120 Z"/></svg>
-    <svg class="ridge r3" viewBox="0 0 1440 120" preserveAspectRatio="none" height="46" fill="currentColor"><path d="M0,108 C360,85 600,118 900,100 C1140,86 1280,112 1440,98 L1440,120 L0,120 Z"/></svg>
+  </div>
+
+  <!-- Masthead -->
+  <header class="masthead" id="top">
+    <div class="wrap">
+      <div class="dateline">Utica · Rome · the Mohawk Valley</div>
+      <h1>The front page of the Mohawk Valley.</h1>
+      <p>What's worth your time this week — events, food, and the local news that actually matters. Curated, every week.</p>
+    </div>
+    <svg class="ridge" viewBox="0 0 1440 120" preserveAspectRatio="none" height="48" fill="currentColor"><path d="M0,108 C360,85 600,118 900,100 C1140,86 1280,112 1440,98 L1440,120 L0,120 Z"/></svg>
   </header>
 
   <main class="wrap">
-    <!-- Signup card -->
-    <div class="card">
-      <span class="badge">🚧 Launching this summer — get on the list first</span>
-      <h2>Get the Valley in your inbox</h2>
-      <p class="sub">Free. Once a week. The events, food, games, and openings worth knowing about — nothing else. Sign up now and you'll get the very first issue.</p>
 
-      <!-- Buttondown embed form (account: mohawkcentral) -->
-      <form
-        action="https://buttondown.com/api/emails/embed-subscribe/mohawkcentral"
-        method="post"
-        target="_blank"
-      >
-        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required />
-        <button type="submit">Sign me up</button>
-      </form>
-      <p class="fineprint">No spam, no selling your address. Unsubscribe anytime.</p>
-    </div>
+    <!-- THIS WEEK -->
+    <section id="week">
+      <div class="sec-head">
+        <h2>📅 This Week</h2>
+        <span class="note">Updated weekly · Fourth of July edition</span>
+      </div>
+      <div class="events">
 
-    <!-- What you'll get -->
-    <section class="value">
-      <h3>What lands in your inbox</h3>
-      <div class="grid">
-        <div class="tile">
-          <span class="emoji">📅</span>
-          <h4>The weekend ahead</h4>
-          <p>Concerts, festivals, markets, and Comets &amp; Nexus Center games — all in one scroll.</p>
+        <div class="event">
+          <div class="datechip"><div class="d">4</div><div class="m">Jul</div></div>
+          <div>
+            <span class="tag headline">Headline</span>
+            <h3>Party at the Point + Fireworks</h3>
+            <div class="where">Harbor Point, Utica · 6–10pm</div>
+            <p>Utica's America 250 celebration debuts at the new 100-acre waterfront — food trucks, the band Nervous Rex, touch-a-truck, and fireworks to close the night. The big one.</p>
+          </div>
         </div>
-        <div class="tile">
-          <span class="emoji">🍝</span>
-          <h4>Where to eat</h4>
-          <p>New openings, riggies &amp; greens worth the drive, and Valley food news.</p>
+
+        <div class="event">
+          <div class="datechip"><div class="d">4</div><div class="m">Jul</div></div>
+          <div>
+            <span class="tag family">Family</span>
+            <h3>Utica Fourth of July Parade</h3>
+            <div class="where">Genesee St → Memorial Pkwy · 10am</div>
+            <p>The classic route down the Olmsted parkway, ending at the Parkway Rec Center in Roscoe Conkling Park.</p>
+          </div>
         </div>
-        <div class="tile">
-          <span class="emoji">📣</span>
-          <h4>What's changing</h4>
-          <p>The chip boom, new businesses, and the stuff that actually affects the Valley.</p>
+
+        <div class="event">
+          <div class="datechip"><div class="d">4</div><div class="m">Jul</div></div>
+          <div>
+            <span class="tag family">Family</span>
+            <h3>Hamilton Independence Day</h3>
+            <div class="where">Wings Way, Hamilton · from 9:30am</div>
+            <p>A full small-town Fourth: community market, parade, and family activities all day. Worth the drive.</p>
+          </div>
         </div>
+
+        <div class="event">
+          <div class="datechip"><div class="d">5</div><div class="m">Jul</div></div>
+          <div>
+            <span class="tag family">Family</span>
+            <h3>Bridgewater America 250</h3>
+            <div class="where">Bridgewater Town Park · 5–10pm</div>
+            <p>Bounce houses, a classic-car cruise-in, food trucks, live music, and fireworks after dark.</p>
+          </div>
+        </div>
+
+        <div class="event">
+          <div class="datechip"><div class="d">11</div><div class="m">Jul</div></div>
+          <div>
+            <span class="tag headline">Coming up</span>
+            <h3>The Boilermaker 15K Weekend</h3>
+            <div class="where">Downtown Utica · Jul 11–12</div>
+            <p>The Valley's signature race and the legendary FX Matt post-race party. If you're running, register now; if not, stake out a spot.</p>
+          </div>
+        </div>
+
+        <div class="event">
+          <div class="datechip"><div class="d">16</div><div class="m">Jul</div></div>
+          <div>
+            <span class="tag music">Music</span>
+            <h3>Blackberry Smoke</h3>
+            <div class="where">1888 Tavern @ Saranac Brewery · 7pm</div>
+            <p>Southern rock at the brewery's tavern stage. Doors 6pm; Brewery Pass holders in at 5. On sale now.</p>
+          </div>
+        </div>
+
       </div>
     </section>
+
+    <!-- LOWER: Valley headlines + Eat -->
+    <section style="padding-top:8px">
+      <div class="cols">
+
+        <!-- The Valley -->
+        <div id="valley">
+          <div class="sec-head"><h2>📣 The Valley</h2><span class="note">Curated headlines</span></div>
+          <ul class="headline-list">
+            <li><a href="https://bluewaterhealthyliving.com/news/national-news/new-york/breaking-down-why-utica-is-moving-july-4-celebration-to-harbor-point/" target="_blank" rel="noopener"><h3>Why Utica moved its July 4th celebration to Harbor Point</h3><div class="src">The waterfront's big debut · Blue Water Healthy Living</div></a></li>
+            <li><a href="https://www.governor.ny.gov/news/governor-hochul-announces-grand-opening-wolfspeeds-1-billon-state-art-silicon-carbide" target="_blank" rel="noopener"><h3>Wolfspeed's $1B chip fab is open and expanding at Marcy</h3><div class="src">600+ jobs and a wave of newcomers · NY Governor's Office</div></a></li>
+            <li><a href="https://www.nexusutica.com/" target="_blank" rel="noopener"><h3>Nexus Center keeps pulling 360,000+ visitors a year</h3><div class="src">And it lands the 2026 NCAA DIII Frozen Four · Nexus Center</div></a></li>
+            <li><a href="https://www.wktv.com/news/local/" target="_blank" rel="noopener"><h3>More local news from around the Valley</h3><div class="src">Politics, schools, sports · WKTV NewsChannel 2</div></a></li>
+          </ul>
+        </div>
+
+        <!-- Eat & Drink -->
+        <div id="eat">
+          <div class="sec-head"><h2>🍝 Eat &amp; Drink</h2></div>
+          <div class="eat-item"><h3>Harbor Point arrives</h3><p>The former canal/industrial site between the Mohawk and the Barge Canal hosts its first big crowd this Fourth — Utica's biggest waterfront bet in a generation.</p></div>
+          <div class="eat-item"><h3>The riggies-and-greens canon</h3><p>New here? Chicken riggies, Utica greens, tomato pie, and a half-moon cookie. That's the starter pack.</p></div>
+          <div class="eat-item"><h3>Saranac season</h3><p>FX Matt's brewery tavern is back in summer mode with live music — a Valley institution since 1888.</p></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DO / guides -->
+    <section id="do">
+      <div class="sec-head"><h2>🧭 Do</h2><span class="note">Evergreen guides</span></div>
+      <div class="guides">
+        <a class="guide feature" href="#subscribe">
+          <span class="emoji">🧳</span>
+          <h3>New to the Mohawk Valley? Start here.</h3>
+          <p>The one guide that gets you oriented — neighborhoods, food, getting around. (Coming soon.)</p>
+        </a>
+        <a class="guide" href="#subscribe">
+          <span class="emoji">🌲</span>
+          <h3>Parks &amp; the outdoors</h3>
+          <p>The Olmsted park system, Erie Canalway Trail, and the Adirondack gateway out the back door.</p>
+        </a>
+        <a class="guide" href="#subscribe">
+          <span class="emoji">🎭</span>
+          <h3>Arts &amp; nights out</h3>
+          <p>The Stanley Theatre, Munson, and where to catch live music around the Valley.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Subscribe -->
+    <section id="subscribe" style="padding-top:8px">
+      <div class="signup">
+        <span class="badge">🚧 Launching this summer — get on the list first</span>
+        <h2>The whole Valley, once a week.</h2>
+        <p class="sub">Everything above, delivered free every Monday morning. Sign up now and you'll get the very first issue.</p>
+        <form action="https://buttondown.com/api/emails/embed-subscribe/mohawkcentral" method="post" target="_blank">
+          <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required />
+          <button type="submit">Sign me up</button>
+        </form>
+        <div class="fine">No spam, no selling your address. Unsubscribe anytime.</div>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="wrap">
-    <div class="places">Covering Utica, Rome, New Hartford, Whitesboro &amp; the whole Mohawk Valley</div>
-    <div>© <span id="yr"></span> Mohawk Central · mohawkcentral.com</div>
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div>
+        <div class="fbrand">Mohawk Central</div>
+        <div class="places">The front page of the Mohawk Valley — covering Utica, Rome, New Hartford, Whitesboro, Clinton, Herkimer &amp; beyond.</div>
+      </div>
+      <nav class="nav" style="gap:18px">
+        <a href="#week">This Week</a>
+        <a href="#valley">The Valley</a>
+        <a href="#subscribe" class="cta">Subscribe</a>
+      </nav>
+      <div class="small">© <span id="yr"></span> Mohawk Central · mohawkcentral.com · Made in the Mohawk Valley</div>
+    </div>
   </footer>
 
-  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
 </body>
 </html>
