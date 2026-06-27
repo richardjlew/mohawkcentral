@@ -1,0 +1,326 @@
+[
+  {
+    "id": "sch_proctor",
+    "name": "Thomas R. Proctor",
+    "shortName": "Proctor",
+    "city": "Utica",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_newhartford",
+    "name": "New Hartford",
+    "shortName": "New Hartford",
+    "city": "New Hartford",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_whitesboro",
+    "name": "Whitesboro",
+    "shortName": "Whitesboro",
+    "city": "Marcy",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_rfa",
+    "name": "Rome Free Academy",
+    "shortName": "RFA",
+    "city": "Rome",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_clinton",
+    "name": "Clinton",
+    "shortName": "Clinton",
+    "city": "Clinton",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_hollandpatent",
+    "name": "Holland Patent",
+    "shortName": "Holland Patent",
+    "city": "Holland Patent",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_nymills",
+    "name": "New York Mills",
+    "shortName": "NY Mills",
+    "city": "New York Mills",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_oriskany",
+    "name": "Oriskany",
+    "shortName": "Oriskany",
+    "city": "Oriskany",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_sauquoit",
+    "name": "Sauquoit Valley",
+    "shortName": "Sauquoit Valley",
+    "city": "Sauquoit",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_waterville",
+    "name": "Waterville",
+    "shortName": "Waterville",
+    "city": "Waterville",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_westmoreland",
+    "name": "Westmoreland",
+    "shortName": "Westmoreland",
+    "city": "Westmoreland",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_vvs",
+    "name": "Vernon-Verona-Sherrill",
+    "shortName": "VVS",
+    "city": "Verona",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_camden",
+    "name": "Camden",
+    "shortName": "Camden",
+    "city": "Camden",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_adirondack",
+    "name": "Adirondack",
+    "shortName": "Adirondack",
+    "city": "Boonville",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_remsen",
+    "name": "Remsen",
+    "shortName": "Remsen",
+    "city": "Remsen",
+    "county": "Oneida",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_notredame",
+    "name": "Notre Dame Jr/Sr",
+    "shortName": "Notre Dame",
+    "city": "Utica",
+    "county": "Oneida",
+    "type": "private",
+    "level": "hs"
+  },
+  {
+    "id": "sch_herkimer",
+    "name": "Herkimer",
+    "shortName": "Herkimer",
+    "city": "Herkimer",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_centralvalley",
+    "name": "Central Valley Academy",
+    "shortName": "Central Valley",
+    "city": "Ilion",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_frankfort",
+    "name": "Frankfort-Schuyler",
+    "shortName": "Frankfort-Schuyler",
+    "city": "Frankfort",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_mountmarkham",
+    "name": "Mount Markham",
+    "shortName": "Mount Markham",
+    "city": "West Winfield",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_westcanada",
+    "name": "West Canada Valley",
+    "shortName": "West Canada Valley",
+    "city": "Newport",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_poland",
+    "name": "Poland",
+    "shortName": "Poland",
+    "city": "Poland",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_dolgeville",
+    "name": "Dolgeville",
+    "shortName": "Dolgeville",
+    "city": "Dolgeville",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_littlefalls",
+    "name": "Little Falls",
+    "shortName": "Little Falls",
+    "city": "Little Falls",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_townofwebb",
+    "name": "Town of Webb",
+    "shortName": "Town of Webb",
+    "city": "Old Forge",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_owendyoung",
+    "name": "Owen D. Young",
+    "shortName": "Owen D. Young",
+    "city": "Van Hornesville",
+    "county": "Herkimer",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_oneida",
+    "name": "Oneida",
+    "shortName": "Oneida",
+    "city": "Oneida",
+    "county": "Madison",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_hamilton",
+    "name": "Hamilton",
+    "shortName": "Hamilton",
+    "city": "Hamilton",
+    "county": "Madison",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_morrisville",
+    "name": "Morrisville-Eaton",
+    "shortName": "Morrisville-Eaton",
+    "city": "Morrisville",
+    "county": "Madison",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_stockbridge",
+    "name": "Stockbridge Valley",
+    "shortName": "Stockbridge Valley",
+    "city": "Munnsville",
+    "county": "Madison",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_brookfield",
+    "name": "Brookfield",
+    "shortName": "Brookfield",
+    "city": "Brookfield",
+    "county": "Madison",
+    "type": "public",
+    "level": "hs"
+  },
+  {
+    "id": "sch_uticau",
+    "name": "Utica University",
+    "shortName": "Utica University",
+    "city": "Utica",
+    "county": "Oneida",
+    "type": "college",
+    "level": "college"
+  },
+  {
+    "id": "sch_hamiltoncollege",
+    "name": "Hamilton College",
+    "shortName": "Hamilton College",
+    "city": "Clinton",
+    "county": "Oneida",
+    "type": "college",
+    "level": "college"
+  },
+  {
+    "id": "sch_sunypoly",
+    "name": "SUNY Polytechnic Institute",
+    "shortName": "SUNY Poly",
+    "city": "Utica",
+    "county": "Oneida",
+    "type": "college",
+    "level": "college"
+  },
+  {
+    "id": "sch_mvcc",
+    "name": "Mohawk Valley Community College",
+    "shortName": "MVCC",
+    "city": "Utica",
+    "county": "Oneida",
+    "type": "college",
+    "level": "college"
+  },
+  {
+    "id": "sch_colgate",
+    "name": "Colgate University",
+    "shortName": "Colgate",
+    "city": "Hamilton",
+    "county": "Madison",
+    "type": "college",
+    "level": "college"
+  }
+]

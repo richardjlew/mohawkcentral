@@ -21,3 +21,14 @@
  * @property {string} thumbnailUrl         // 9:16 poster
  * @property {string} dateCreated          // ISO 8601 (UTC)
  */
+
+/**
+ * @typedef {Object} School
+ * @property {string} id
+ * @property {string} name
+ * @property {string} shortName
+ * @property {string} city
+ * @property {('Oneida'|'Herkimer'|'Madison')} county
+ * @property {('public'|'private'|'college')} type
+ * @property {('hs'|'college')} level
+ */

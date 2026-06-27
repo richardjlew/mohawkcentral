@@ -181,6 +181,15 @@
   .vc-modal-inner video{width:100%;height:100%;object-fit:contain;background:#000;display:block}
   .vc-close{position:absolute;top:10px;right:10px;z-index:2;width:36px;height:36px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:20px;line-height:1;cursor:pointer}
   .vc-unmute{position:absolute;bottom:12px;left:12px;z-index:2;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+
+  /* ---- School streams: off-season roster ---- */
+  .ss-grid.ss-off{display:block}
+  .ss-offmsg{font-size:14.5px;color:var(--muted);max-width:64ch;margin-bottom:16px}
+  .ss-offmsg strong{color:var(--ink)}
+  .ss-roster{display:flex;flex-wrap:wrap;gap:8px}
+  .ss-chip{display:inline-flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;line-height:1.15}
+  .ss-chip b{font-size:13px;font-weight:700;color:var(--ink)}
+  .ss-chip em{font-style:normal;font-weight:500;font-size:11px;color:var(--muted);margin-top:1px}
 </style>
 </head>
 <body>
@@ -296,7 +305,7 @@
     <section id="schools">
       <div class="sec-head">
         <h2>📺 Watch Live: Local Schools</h2>
-        <span class="note">Stream tonight&rsquo;s games, shows &amp; ceremonies</span>
+        <span class="note">Live streams from area schools &amp; colleges</span>
       </div>
       <div class="ss-grid" id="ss-grid"><div class="lt-empty">Loading school streams&hellip;</div></div>
     </section>
@@ -501,21 +510,29 @@
   (function(){
     function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
     function fmt(iso){try{return new Date(iso).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});}catch(e){return '';}}
-    // ----- Local school streams -----
-    fetch('data/school-streams.json').then(function(r){return r.json();}).then(function(rows){
+    // ----- Local school streams (off-season aware) -----
+    Promise.all([
+      fetch('data/school-streams.json').then(function(r){return r.json();}).catch(function(){return [];}),
+      fetch('data/schools.json').then(function(r){return r.json();}).catch(function(){return [];})
+    ]).then(function(res){
+      var events=res[0]||[], schools=res[1]||[];
       var g=document.getElementById('ss-grid'); if(!g) return;
-      rows=rows.slice().sort(function(a,b){return new Date(a.scheduledStartTime)-new Date(b.scheduledStartTime);});
-      if(!rows.length){g.innerHTML='<div class="lt-empty">No school streams scheduled yet.</div>';return;}
-      g.innerHTML=rows.map(function(e){
-        var foot = e.isLive
-          ? '<a class="ss-live" href="'+esc(e.streamUrl)+'" target="_blank" rel="noopener"><span class="blink"></span>\uD83D\uDD34 Watch Live</a>'
-          : '<span class="ss-time">'+fmt(e.scheduledStartTime)+'</span>';
-        return '<div class="ss-card"><div class="ss-school">'+esc(e.schoolName)+'</div>'
-          +'<h3>'+esc(e.eventTitle)+'</h3>'
-          +'<div class="ss-type">'+esc(e.eventType)+'</div>'
-          +'<div class="ss-foot">'+foot+'<span class="ss-plat">'+esc(e.streamPlatform)+'</span></div></div>';
-      }).join('');
-    }).catch(function(){var g=document.getElementById('ss-grid');if(g)g.innerHTML='<div class="lt-empty">School streams are unavailable right now.</div>';});
+      if(events.length){
+        g.classList.remove('ss-off');
+        events=events.slice().sort(function(a,b){return new Date(a.scheduledStartTime)-new Date(b.scheduledStartTime);});
+        g.innerHTML=events.map(function(e){
+          var foot=e.isLive
+            ? '<a class="ss-live" href="'+esc(e.streamUrl)+'" target="_blank" rel="noopener"><span class="blink"></span>\uD83D\uDD34 Watch Live</a>'
+            : '<span class="ss-time">'+fmt(e.scheduledStartTime)+'</span>';
+          return '<div class="ss-card"><div class="ss-school">'+esc(e.schoolName)+'</div><h3>'+esc(e.eventTitle)+'</h3><div class="ss-type">'+esc(e.eventType)+'</div><div class="ss-foot">'+foot+'<span class="ss-plat">'+esc(e.streamPlatform)+'</span></div></div>';
+        }).join('');
+      } else {
+        g.classList.add('ss-off');
+        var chips=schools.map(function(sc){return '<span class="ss-chip"><b>'+esc(sc.shortName||sc.name)+'</b><em>'+esc(sc.city||'')+'</em></span>';}).join('');
+        g.innerHTML='<div class="ss-offmsg"><strong>School sports return this fall.</strong> When games, musicals, and ceremonies stream, they\u2019ll appear here live. We\u2019re covering '+schools.length+' schools &amp; colleges across the Valley:</div><div class="ss-roster">'+chips+'</div>';
+      }
+    });
+
     // ----- Vertical clips + modal -----
     var modal=document.getElementById('vc-modal'), vid=document.getElementById('vc-video'),
         closeBtn=document.getElementById('vc-close'), unmute=document.getElementById('vc-unmute');
