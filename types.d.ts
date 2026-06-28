@@ -32,3 +32,13 @@
  * @property {('public'|'private'|'college')} type
  * @property {('hs'|'college')} level
  */
+
+/**
+ * Replay/archive fields present on a school event when status === 'past':
+ * @typedef {Object} SchoolStreamReplayFields
+ * @property {('upcoming'|'live'|'past')} status
+ * @property {string} replayUrl     // public YouTube link (embed-only / link-out)
+ * @property {string} thumbnailUrl
+ * @property {string} recordedDate  // ISO 8601 (when it happened)
+ * @property {string} source        // credit, e.g. 'RFA Athletics'
+ */

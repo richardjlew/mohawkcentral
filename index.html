@@ -190,6 +190,22 @@
   .ss-chip{display:inline-flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;line-height:1.15}
   .ss-chip b{font-size:13px;font-weight:700;color:var(--ink)}
   .ss-chip em{font-style:normal;font-weight:500;font-size:11px;color:var(--muted);margin-top:1px}
+
+  /* ---- School streams: replays / Catch Up (P1) ---- */
+  .ss-grid{display:block}
+  .ss-scoregrid,.rp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .ss-sub{font-family:'Fraunces',serif;font-weight:700;font-size:18px;color:var(--evergreen);margin:6px 0 14px}
+  .rp-card{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:box-shadow .15s ease,transform .15s ease}
+  .rp-card:hover{box-shadow:0 10px 28px rgba(14,44,36,.10);transform:translateY(-2px)}
+  .rp-thumb{position:relative;aspect-ratio:16/9;background:#0e2c24}
+  .rp-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .rp-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+  .rp-badge{position:absolute;top:8px;left:8px;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:rgba(0,0,0,.62);color:#fff}
+  .rp-badge.fresh{background:var(--amber);color:#3a2606}
+  .rp-body{padding:12px 14px}
+  .rp-body h3{font-size:15px;font-weight:700;margin-bottom:2px;line-height:1.25}
+  .rp-meta{font-size:12px;color:var(--muted)}
+  .rp-src{font-size:11px;color:var(--canal);margin-top:4px}
 </style>
 </head>
 <body>
@@ -510,27 +526,38 @@
   (function(){
     function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
     function fmt(iso){try{return new Date(iso).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});}catch(e){return '';}}
-    // ----- Local school streams (off-season aware) -----
+    // ----- Local school streams + replays (P1) -----
     Promise.all([
       fetch('data/school-streams.json').then(function(r){return r.json();}).catch(function(){return [];}),
       fetch('data/schools.json').then(function(r){return r.json();}).catch(function(){return [];})
     ]).then(function(res){
       var events=res[0]||[], schools=res[1]||[];
       var g=document.getElementById('ss-grid'); if(!g) return;
-      if(events.length){
-        g.classList.remove('ss-off');
-        events=events.slice().sort(function(a,b){return new Date(a.scheduledStartTime)-new Date(b.scheduledStartTime);});
-        g.innerHTML=events.map(function(e){
-          var foot=e.isLive
+      var upcoming=events.filter(function(e){return e.status!=='past';});
+      var past=events.filter(function(e){return e.status==='past';});
+      var now=new Date(), html='';
+      if(upcoming.length){
+        upcoming.sort(function(a,b){return new Date(a.scheduledStartTime)-new Date(b.scheduledStartTime);});
+        html+='<div class="ss-scoregrid">'+upcoming.map(function(e){
+          var foot=(e.isLive||e.status==='live')
             ? '<a class="ss-live" href="'+esc(e.streamUrl)+'" target="_blank" rel="noopener"><span class="blink"></span>\uD83D\uDD34 Watch Live</a>'
             : '<span class="ss-time">'+fmt(e.scheduledStartTime)+'</span>';
           return '<div class="ss-card"><div class="ss-school">'+esc(e.schoolName)+'</div><h3>'+esc(e.eventTitle)+'</h3><div class="ss-type">'+esc(e.eventType)+'</div><div class="ss-foot">'+foot+'<span class="ss-plat">'+esc(e.streamPlatform)+'</span></div></div>';
-        }).join('');
-      } else {
-        g.classList.add('ss-off');
-        var chips=schools.map(function(sc){return '<span class="ss-chip"><b>'+esc(sc.shortName||sc.name)+'</b><em>'+esc(sc.city||'')+'</em></span>';}).join('');
-        g.innerHTML='<div class="ss-offmsg"><strong>School sports return this fall.</strong> When games, musicals, and ceremonies stream, they\u2019ll appear here live. We\u2019re covering '+schools.length+' schools &amp; colleges across the Valley:</div><div class="ss-roster">'+chips+'</div>';
+        }).join('')+'</div>';
       }
+      if(past.length){
+        past.sort(function(a,b){return new Date(b.recordedDate||0)-new Date(a.recordedDate||0);});
+        html+='<h3 class="ss-sub">\uD83D\uDD01 Catch Up \u2014 Replays</h3><div class="rp-grid">'+past.map(function(e){
+          var fresh=e.recordedDate && (now-new Date(e.recordedDate))<7*86400000;
+          var badge=fresh?'<span class="rp-badge fresh">Yesterday\u2019s Replay</span>':'<span class="rp-badge">Replay</span>';
+          return '<a class="rp-card" href="'+esc(e.replayUrl||'#')+'" target="_blank" rel="noopener"><div class="rp-thumb"><img loading="lazy" alt="" src="'+esc(e.thumbnailUrl||'')+'"><span class="rp-play">\u25B6</span>'+badge+'</div><div class="rp-body"><h3>'+esc(e.eventTitle)+'</h3><div class="rp-meta">'+esc(e.schoolName)+' \u00b7 '+esc(e.eventType)+'</div>'+(e.source?'<div class="rp-src">'+esc(e.source)+'</div>':'')+'</div></a>';
+        }).join('')+'</div>';
+      }
+      if(!upcoming.length){
+        var chips=schools.map(function(sc){return '<span class="ss-chip"><b>'+esc(sc.shortName||sc.name)+'</b><em>'+esc(sc.city||'')+'</em></span>';}).join('');
+        html+='<div class="ss-offmsg"><strong>School sports return this fall.</strong> When games, musicals, and ceremonies stream, they\u2019ll appear here live \u2014 and land in Catch Up afterward. We\u2019re covering '+schools.length+' schools &amp; colleges across the Valley:</div><div class="ss-roster">'+chips+'</div>';
+      }
+      g.innerHTML=html;
     });
 
     // ----- Vertical clips + modal -----

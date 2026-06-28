@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "id": "past_demo_rfa",
+    "schoolName": "Rome Free Academy",
+    "eventType": "Graduation",
+    "eventTitle": "[SAMPLE] RFA Class of 2026 Commencement",
+    "status": "past",
+    "recordedDate": "2026-06-27T01:29:47.548444+00:00",
+    "replayUrl": "https://www.youtube.com/results?search_query=rome+free+academy+graduation+2026",
+    "thumbnailUrl": "https://picsum.photos/seed/rfagrad/640/360",
+    "streamPlatform": "YouTube",
+    "source": "Placeholder \u2014 replace with real link",
+    "isLive": false
+  },
+  {
+    "id": "past_demo_proctor",
+    "schoolName": "Thomas R. Proctor",
+    "eventType": "Graduation",
+    "eventTitle": "[SAMPLE] Proctor Class of 2026 Commencement",
+    "status": "past",
+    "recordedDate": "2026-06-26T01:29:47.548444+00:00",
+    "replayUrl": "https://www.youtube.com/results?search_query=proctor+utica+graduation+2026",
+    "thumbnailUrl": "https://picsum.photos/seed/proctorgrad/640/360",
+    "streamPlatform": "YouTube",
+    "source": "Placeholder \u2014 replace with real link",
+    "isLive": false
+  }
+]
