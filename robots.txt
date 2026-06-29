@@ -1,0 +1,4 @@
+# Mohawk Central — pre-launch.
+# Search indexing is intentionally disabled until content is finalized.
+User-agent: *
+Disallow: /
