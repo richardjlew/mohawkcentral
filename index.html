@@ -358,10 +358,10 @@
     <section id="do">
       <div class="sec-head"><h2>🧭 Do</h2><span class="note">Evergreen guides</span></div>
       <div class="guides">
-        <a class="guide feature" href="#subscribe">
+        <a class="guide feature" href="/start">
           <span class="emoji">🧳</span>
           <h3>New to the Mohawk Valley? Start here.</h3>
-          <p>The one guide that gets you oriented — neighborhoods, food, getting around. (Coming soon.)</p>
+          <p>The one guide that gets you oriented — neighborhoods, food, getting around, and where to start.</p>
         </a>
         <a class="guide" href="#subscribe">
           <span class="emoji">🌲</span>
@@ -374,24 +374,6 @@
           <p>The Stanley Theatre, Munson, and where to catch live music around the Valley.</p>
         </a>
       </div>
-    </section>
-
-    <!-- FIELD CORRESPONDENT VIDEO FEED -->
-    <section id="field">
-      <div class="sec-head">
-        <h2>🎥 Field Correspondents</h2>
-        <span class="note">Video from around the Mohawk Valley</span>
-      </div>
-      <div class="ff-grid" id="ff-grid"><div class="lt-empty">Loading the video feed&hellip;</div></div>
-    </section>
-
-    <!-- VERTICAL FIELD CLIPS CAROUSEL -->
-    <section id="clips">
-      <div class="sec-head">
-        <h2>📱 Quick Clips</h2>
-        <span class="note">60-second vertical dispatches &mdash; tap to play</span>
-      </div>
-      <div class="vc-row" id="vc-row"><div class="lt-empty">Loading clips&hellip;</div></div>
     </section>
 
     <!-- Subscribe -->
@@ -514,15 +496,6 @@
     }).catch(function(){var g=document.getElementById('ff-grid');if(g)g.innerHTML='<div class="lt-empty">The video feed is unavailable right now.</div>';});
   })();
   </script>
-
-  <!-- Vertical clip modal player -->
-  <div class="vc-modal" id="vc-modal" aria-hidden="true">
-    <div class="vc-modal-inner">
-      <button class="vc-close" id="vc-close" aria-label="Close">×</button>
-      <video id="vc-video" playsinline muted controls preload="none"></video>
-      <button class="vc-unmute" id="vc-unmute">🔊 Tap for sound</button>
-    </div>
-  </div>
 
   <!-- School streams + vertical clips renderers (vanilla) -->
   <script>
