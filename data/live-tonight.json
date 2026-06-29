@@ -9,7 +9,8 @@
     "endsAt": "2026-07-05T02:00:00+00:00",
     "price": "Free",
     "url": "https://bluewaterhealthyliving.com/news/national-news/new-york/breaking-down-why-utica-is-moving-july-4-celebration-to-harbor-point/",
-    "status": "scheduled"
+    "status": "scheduled",
+    "summary": "Utica's America 250 celebration debuts at the new 100-acre waterfront \u2014 food trucks, the band Nervous Rex, touch-a-truck, and fireworks to close the night."
   },
   {
     "id": "evt_utica_parade",
@@ -21,7 +22,8 @@
     "endsAt": "2026-07-04T16:00:00+00:00",
     "price": "Free",
     "url": "",
-    "status": "scheduled"
+    "status": "scheduled",
+    "summary": "The classic route down the Olmsted parkway, ending at the Parkway Rec Center in Roscoe Conkling Park."
   },
   {
     "id": "evt_hamilton_july4",
@@ -33,7 +35,8 @@
     "endsAt": "2026-07-04T20:00:00+00:00",
     "price": "Free",
     "url": "",
-    "status": "scheduled"
+    "status": "scheduled",
+    "summary": "A full small-town Fourth: community market, parade, and family activities all day."
   },
   {
     "id": "evt_bridgewater_250",
@@ -45,7 +48,8 @@
     "endsAt": "2026-07-06T02:00:00+00:00",
     "price": "Free",
     "url": "",
-    "status": "scheduled"
+    "status": "scheduled",
+    "summary": "Bounce houses, a classic-car cruise-in, food trucks, live music, and fireworks after dark."
   },
   {
     "id": "evt_boilermaker",
@@ -57,7 +61,8 @@
     "endsAt": "2026-07-12T20:00:00+00:00",
     "price": "$$",
     "url": "https://www.boilermaker.com/15k/",
-    "status": "scheduled"
+    "status": "scheduled",
+    "summary": "The Valley's signature 15K and the legendary FX Matt post-race party. Register, or stake out a spot."
   },
   {
     "id": "evt_blackberry_smoke",
@@ -69,6 +74,7 @@
     "endsAt": "2026-07-17T02:00:00+00:00",
     "price": "$$",
     "url": "https://www.saranac.com/biergarten-events/blackberry-smoke-concert/",
-    "status": "scheduled"
+    "status": "scheduled",
+    "summary": "Southern rock at the brewery's tavern stage. Doors 6pm; Brewery Pass holders in at 5."
   }
 ]

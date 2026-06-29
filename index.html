@@ -243,71 +243,9 @@
     <section id="week">
       <div class="sec-head">
         <h2>📅 This Week</h2>
-        <span class="note">Updated weekly · Fourth of July edition</span>
+        <span class="note">The week ahead across the Valley</span>
       </div>
-      <div class="events">
-
-        <div class="event">
-          <div class="datechip"><div class="d">4</div><div class="m">Jul</div></div>
-          <div>
-            <span class="tag headline">Headline</span>
-            <h3>Party at the Point + Fireworks</h3>
-            <div class="where">Harbor Point, Utica · 6–10pm</div>
-            <p>Utica's America 250 celebration debuts at the new 100-acre waterfront — food trucks, the band Nervous Rex, touch-a-truck, and fireworks to close the night. The big one.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="datechip"><div class="d">4</div><div class="m">Jul</div></div>
-          <div>
-            <span class="tag family">Family</span>
-            <h3>Utica Fourth of July Parade</h3>
-            <div class="where">Genesee St → Memorial Pkwy · 10am</div>
-            <p>The classic route down the Olmsted parkway, ending at the Parkway Rec Center in Roscoe Conkling Park.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="datechip"><div class="d">4</div><div class="m">Jul</div></div>
-          <div>
-            <span class="tag family">Family</span>
-            <h3>Hamilton Independence Day</h3>
-            <div class="where">Wings Way, Hamilton · from 9:30am</div>
-            <p>A full small-town Fourth: community market, parade, and family activities all day. Worth the drive.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="datechip"><div class="d">5</div><div class="m">Jul</div></div>
-          <div>
-            <span class="tag family">Family</span>
-            <h3>Bridgewater America 250</h3>
-            <div class="where">Bridgewater Town Park · 5–10pm</div>
-            <p>Bounce houses, a classic-car cruise-in, food trucks, live music, and fireworks after dark.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="datechip"><div class="d">11</div><div class="m">Jul</div></div>
-          <div>
-            <span class="tag headline">Coming up</span>
-            <h3>The Boilermaker 15K Weekend</h3>
-            <div class="where">Downtown Utica · Jul 11–12</div>
-            <p>The Valley's signature race and the legendary FX Matt post-race party. If you're running, register now; if not, stake out a spot.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="datechip"><div class="d">16</div><div class="m">Jul</div></div>
-          <div>
-            <span class="tag music">Music</span>
-            <h3>Blackberry Smoke</h3>
-            <div class="where">1888 Tavern @ Saranac Brewery · 7pm</div>
-            <p>Southern rock at the brewery's tavern stage. Doors 6pm; Brewery Pass holders in at 5. On sale now.</p>
-          </div>
-        </div>
-
-      </div>
+      <div class="events" id="week-grid"><div class="lt-empty">Loading the week…</div></div>
     </section>
 
     <!-- LIVE TONIGHT DASHBOARD -->
@@ -363,12 +301,12 @@
           <h3>New to the Mohawk Valley? Start here.</h3>
           <p>The one guide that gets you oriented — neighborhoods, food, getting around, and where to start.</p>
         </a>
-        <a class="guide" href="#subscribe">
+        <a class="guide" href="/parks">
           <span class="emoji">🌲</span>
           <h3>Parks &amp; the outdoors</h3>
           <p>The Olmsted park system, Erie Canalway Trail, and the Adirondack gateway out the back door.</p>
         </a>
-        <a class="guide" href="#subscribe">
+        <a class="guide" href="/arts">
           <span class="emoji">🎭</span>
           <h3>Arts &amp; nights out</h3>
           <p>The Stanley Theatre, Munson, and where to catch live music around the Valley.</p>
@@ -470,31 +408,7 @@
           +'<h3>'+esc(e.title)+'</h3><div class="venue">'+esc(e.venue||'')+'</div></a>';
       }).join('');
     }).catch(function(){var g=document.getElementById('lt-grid');if(g)g.innerHTML='<div class="lt-empty">Tonight&rsquo;s board is unavailable right now.</div>';});
-    // ----- Field correspondent feed -----
-    fetch('data/field-videos.json').then(function(r){return r.json();}).then(function(rows){
-      var g=document.getElementById('ff-grid'); if(!g) return;
-      rows=rows.slice().sort(function(a,b){return new Date(b.publishedAt||0)-new Date(a.publishedAt||0);});
-      if(!rows.length){g.innerHTML='<div class="lt-empty">No clips yet.</div>';return;}
-      g.innerHTML=rows.map(function(v){
-        var media='', label=v.type, cls='ff-type';
-        if(v.type==='embed' && v.embed){
-          media='<a class="ff-play" href="'+esc(v.embed.url)+'" target="_blank" rel="noopener" aria-label="Play">\u25B6</a><img loading="lazy" alt="" src="'+esc(v.thumbnail||'')+'">';
-        } else if(v.type==='upload' && v.file){
-          media='<video controls preload="none" poster="'+esc(v.file.poster||v.thumbnail||'')+'" src="'+esc(v.file.src)+'"></video>';
-        } else if(v.type==='live' && v.live){
-          var on=v.live.status==='live'; label=on?'Live':esc(v.live.status); if(on) cls='ff-type live';
-          var play=(on && v.live.streamUrl)?'<a class="ff-play" href="'+esc(v.live.streamUrl)+'" target="_blank" rel="noopener">\u25B6</a>':'';
-          media=play+'<img loading="lazy" alt="" src="'+esc(v.thumbnail||'')+'">';
-        } else {
-          media='<img loading="lazy" alt="" src="'+esc(v.thumbnail||'')+'">';
-        }
-        var who=(v.correspondent&&v.correspondent.name)||'Correspondent';
-        var loc=(v.correspondent&&v.correspondent.location)?' \u00b7 '+esc(v.correspondent.location):'';
-        return '<div class="ff-card"><div class="ff-media"><span class="'+cls+'">'+esc(label)+'</span>'+media+'</div>'
-          +'<div class="ff-body"><h3>'+esc(v.title)+'</h3><div class="ff-corr">'+esc(who)+loc+'</div></div></div>';
-      }).join('');
-    }).catch(function(){var g=document.getElementById('ff-grid');if(g)g.innerHTML='<div class="lt-empty">The video feed is unavailable right now.</div>';});
-  })();
+})();
   </script>
 
   <!-- School streams + vertical clips renderers (vanilla) -->
@@ -536,28 +450,32 @@
       g.innerHTML=html;
     });
 
-    // ----- Vertical clips + modal -----
-    var modal=document.getElementById('vc-modal'), vid=document.getElementById('vc-video'),
-        closeBtn=document.getElementById('vc-close'), unmute=document.getElementById('vc-unmute');
-    function openClip(src){ if(!modal||!vid) return; vid.src=src; vid.muted=true; if(unmute)unmute.textContent='\uD83D\uDD0A Tap for sound'; modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); var p=vid.play(); if(p&&p.catch)p.catch(function(){}); }
-    function closeClip(){ if(!modal||!vid) return; modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); vid.pause(); vid.removeAttribute('src'); vid.load(); }
-    if(closeBtn)closeBtn.addEventListener('click',closeClip);
-    if(modal)modal.addEventListener('click',function(e){ if(e.target===modal) closeClip(); });
-    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeClip(); });
-    if(unmute)unmute.addEventListener('click',function(){ vid.muted=!vid.muted; unmute.textContent=vid.muted?'\uD83D\uDD0A Tap for sound':'\uD83D\uDD07 Mute'; });
-    fetch('data/field-vertical.json').then(function(r){return r.json();}).then(function(rows){
-      var g=document.getElementById('vc-row'); if(!g) return;
-      rows=rows.slice().sort(function(a,b){return new Date(b.dateCreated||0)-new Date(a.dateCreated||0);});
-      if(!rows.length){g.innerHTML='<div class="lt-empty">No clips yet.</div>';return;}
-      g.innerHTML=rows.map(function(v){
-        return '<button class="vc-card" data-src="'+esc(v.videoUrl)+'">'
-          +'<div class="vc-thumb"><img loading="lazy" alt="" src="'+esc(v.thumbnailUrl||'')+'"><span class="vc-play">\u25B6</span></div>'
-          +'<div class="vc-meta"><h3>'+esc(v.title)+'</h3><div class="vc-corr">'+esc(v.correspondentName||'')+'</div></div></button>';
+})();
+  </script>
+
+  <!-- This Week renderer (upcoming events after today, from live-tonight.json) -->
+  <script>
+  (function(){
+    function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function tm(iso){try{return new Date(iso).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});}catch(e){return '';}}
+    function tcls(c){return ({music:'music',arts:'music',sports:'headline',community:'family',food:'family',outdoors:'family'})[c]||'family';}
+    var MON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    fetch('data/live-tonight.json').then(function(r){return r.json();}).then(function(rows){
+      var g=document.getElementById('week-grid'); if(!g) return;
+      var now=new Date(), endToday=new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59);
+      var up=rows.filter(function(e){return new Date(e.startsAt)>endToday;})
+                 .sort(function(a,b){return new Date(a.startsAt)-new Date(b.startsAt);});
+      if(!up.length){g.innerHTML='<div class="lt-empty">More events coming soon \u2014 check back.</div>';return;}
+      g.innerHTML=up.slice(0,8).map(function(e){
+        var s=new Date(e.startsAt);
+        var soon=(s-now)>7*86400000;
+        var cat=(e.category||''); var label=cat?cat.charAt(0).toUpperCase()+cat.slice(1):'Event';
+        var tag=soon?'<span class="tag headline">Coming up</span>':'<span class="tag '+tcls(cat)+'">'+esc(label)+'</span>';
+        var where=esc(e.venue||'')+(e.neighborhood?' \u00b7 '+esc(e.neighborhood):'')+' \u00b7 '+tm(e.startsAt);
+        var inner='<div class="datechip"><div class="d">'+s.getDate()+'</div><div class="m">'+MON[s.getMonth()]+'</div></div><div>'+tag+'<h3>'+esc(e.title)+'</h3><div class="where">'+where+'</div>'+(e.summary?'<p>'+esc(e.summary)+'</p>':'')+'</div>';
+        return e.url?('<a class="event" href="'+esc(e.url)+'" target="_blank" rel="noopener" style="text-decoration:none">'+inner+'</a>'):('<div class="event">'+inner+'</div>');
       }).join('');
-      Array.prototype.forEach.call(g.querySelectorAll('.vc-card'),function(btn){
-        btn.addEventListener('click',function(){ openClip(btn.getAttribute('data-src')); });
-      });
-    }).catch(function(){var g=document.getElementById('vc-row');if(g)g.innerHTML='<div class="lt-empty">Clips are unavailable right now.</div>';});
+    }).catch(function(){var g=document.getElementById('week-grid');if(g)g.innerHTML='<div class="lt-empty">This week\u2019s lineup is unavailable right now.</div>';});
   })();
   </script>
 </body>
