@@ -22,7 +22,14 @@
   .nav{display:flex;gap:22px;align-items:center}
   .nav a{font-size:14.5px;font-weight:500;color:#dfe7e0;text-decoration:none}
   .nav .cta{background:var(--amber);color:#3a2606;font-weight:600;padding:8px 16px;border-radius:8px}
-  @media(max-width:680px){.nav a:not(.cta){display:none}}
+  .nav-toggle{display:none;background:none;border:none;color:var(--cream);font-size:24px;line-height:1;cursor:pointer;padding:4px 8px}
+  @media(max-width:680px){
+    .nav-toggle{display:block}
+    .nav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--evergreen);padding:6px 0 12px;border-bottom:1px solid rgba(255,255,255,.1);display:none}
+    .nav.open{display:flex}
+    .nav a{padding:12px 22px;font-size:16px}
+    .nav .cta{margin:10px 22px 4px;text-align:center}
+  }
   .hero{background:linear-gradient(160deg,var(--evergreen),#0e2c24);color:var(--cream);padding:48px 0 40px}
   .hero .wrap{max-width:780px}
   .hero .kicker{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:600}
@@ -55,6 +62,7 @@
       <a href="/start">Start Here</a>
       <a href="/#subscribe" class="cta">Subscribe</a>
     </nav>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
   </div></div>
 
   <header class="hero"><div class="wrap">
@@ -127,5 +135,6 @@
     &copy; <span id="yr"></span> Mohawk Central &middot; <a href="/">mohawkcentral.com</a> &middot; The front page of the Mohawk Valley
   </div></footer>
   <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+  <script>(function(){var t=document.querySelector('.nav-toggle'),n=document.querySelector('.nav');if(!t||!n)return;t.addEventListener('click',function(){n.classList.toggle('open');});n.addEventListener('click',function(e){if(e.target.closest('a'))n.classList.remove('open');});})();</script>
 </body>
 </html>

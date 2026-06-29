@@ -40,7 +40,6 @@
   .nav a:hover{color:#fff}
   .nav .cta{background:var(--amber);color:#3a2606;font-weight:600;padding:8px 16px;border-radius:8px}
   .nav .cta:hover{background:#f0ad45;color:#3a2606}
-  @media(max-width:680px){.nav a:not(.cta){display:none}}
 
   /* ---- Masthead ---- */
   .masthead{background:linear-gradient(180deg,#06182e 0%,#0b2a4a 45%,var(--evergreen) 100%);color:var(--cream);position:relative;overflow:hidden;min-height:380px}
@@ -207,6 +206,22 @@
   .rp-body h3{font-size:15px;font-weight:700;margin-bottom:2px;line-height:1.25}
   .rp-meta{font-size:12px;color:var(--muted)}
   .rp-src{font-size:11px;color:var(--canal);margin-top:4px}
+  /* mobile nav + polish */
+  .nav-toggle{display:none;background:none;border:none;color:var(--cream);font-size:24px;line-height:1;cursor:pointer;padding:4px 8px}
+  .more-link{margin-top:16px;text-align:center}
+  .more-link a,.ss-more a{font-size:14px;font-weight:600;color:var(--canal);text-decoration:none}
+  .ss-more{margin-top:14px}
+  .ss-chip-more{color:var(--muted);font-weight:700}
+  @media(max-width:680px){
+    .nav-toggle{display:block}
+    .nav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--evergreen);padding:6px 0 12px;border-bottom:1px solid rgba(255,255,255,.1);display:none}
+    .nav.open{display:flex}
+    .nav a{padding:12px 22px;font-size:16px}
+    .nav .cta{margin:10px 22px 4px;text-align:center}
+    .masthead{min-height:260px}
+    .masthead .wrap{padding:34px 22px 44px}
+    section{padding:30px 0}
+  }
 </style>
 </head>
 <body>
@@ -223,6 +238,7 @@
         <a href="/catch-up">Catch Up</a>
         <a href="#subscribe" class="cta">Subscribe</a>
       </nav>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
     </div>
   </div>
 
@@ -416,7 +432,6 @@
   (function(){
     function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
     function fmt(iso){try{return new Date(iso).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});}catch(e){return '';}}
-    // ----- Local school streams + replays (P1) -----
     Promise.all([
       fetch('data/school-streams.json').then(function(r){return r.json();}).catch(function(){return [];}),
       fetch('data/schools.json').then(function(r){return r.json();}).catch(function(){return [];})
@@ -424,33 +439,32 @@
       var events=res[0]||[], schools=res[1]||[];
       var g=document.getElementById('ss-grid'); if(!g) return;
       var upcoming=events.filter(function(e){return e.status!=='past';});
-      var past=events.filter(function(e){return e.status==='past';});
+      var past=events.filter(function(e){return e.status==='past';}).sort(function(a,b){return new Date(b.recordedDate||0)-new Date(a.recordedDate||0);});
       var now=new Date(), html='';
       if(upcoming.length){
         upcoming.sort(function(a,b){return new Date(a.scheduledStartTime)-new Date(b.scheduledStartTime);});
         html+='<div class="ss-scoregrid">'+upcoming.map(function(e){
-          var foot=(e.isLive||e.status==='live')
-            ? '<a class="ss-live" href="'+esc(e.streamUrl)+'" target="_blank" rel="noopener"><span class="blink"></span>\uD83D\uDD34 Watch Live</a>'
-            : '<span class="ss-time">'+fmt(e.scheduledStartTime)+'</span>';
+          var foot=(e.isLive||e.status==='live')?'<a class="ss-live" href="'+esc(e.streamUrl)+'" target="_blank" rel="noopener"><span class="blink"></span>🔴 Watch Live</a>':'<span class="ss-time">'+fmt(e.scheduledStartTime)+'</span>';
           return '<div class="ss-card"><div class="ss-school">'+esc(e.schoolName)+'</div><h3>'+esc(e.eventTitle)+'</h3><div class="ss-type">'+esc(e.eventType)+'</div><div class="ss-foot">'+foot+'<span class="ss-plat">'+esc(e.streamPlatform)+'</span></div></div>';
         }).join('')+'</div>';
       }
       if(past.length){
-        past.sort(function(a,b){return new Date(b.recordedDate||0)-new Date(a.recordedDate||0);});
-        html+='<h3 class="ss-sub">\uD83D\uDD01 Catch Up \u2014 Replays</h3><div class="rp-grid">'+past.map(function(e){
+        html+='<h3 class="ss-sub">🔁 Recent Replays</h3><div class="rp-grid">'+past.slice(0,3).map(function(e){
           var fresh=e.recordedDate && (now-new Date(e.recordedDate))<7*86400000;
-          var badge=fresh?'<span class="rp-badge fresh">Yesterday\u2019s Replay</span>':'<span class="rp-badge">Replay</span>';
-          return '<a class="rp-card" href="'+esc(e.replayUrl||'#')+'" target="_blank" rel="noopener"><div class="rp-thumb"><img loading="lazy" alt="" src="'+esc(e.thumbnailUrl||'')+'"><span class="rp-play">\u25B6</span>'+badge+'</div><div class="rp-body"><h3>'+esc(e.eventTitle)+'</h3><div class="rp-meta">'+esc(e.schoolName)+' \u00b7 '+esc(e.eventType)+'</div>'+(e.source?'<div class="rp-src">'+esc(e.source)+'</div>':'')+'</div></a>';
+          var badge=fresh?'<span class="rp-badge fresh">Yesterday’s Replay</span>':'<span class="rp-badge">Replay</span>';
+          return '<a class="rp-card" href="'+esc(e.replayUrl||'#')+'" target="_blank" rel="noopener"><div class="rp-thumb"><img loading="lazy" alt="" src="'+esc(e.thumbnailUrl||'')+'"><span class="rp-play">▶</span>'+badge+'</div><div class="rp-body"><h3>'+esc(e.eventTitle)+'</h3><div class="rp-meta">'+esc(e.schoolName)+' · '+esc(e.eventType)+'</div></div></a>';
         }).join('')+'</div>';
+        if(past.length>3){html+='<div class="ss-more"><a href="/catch-up">See all '+past.length+' replays in Catch Up →</a></div>';}
       }
       if(!upcoming.length){
-        var chips=schools.map(function(sc){return '<span class="ss-chip"><b>'+esc(sc.shortName||sc.name)+'</b><em>'+esc(sc.city||'')+'</em></span>';}).join('');
-        html+='<div class="ss-offmsg"><strong>School sports return this fall.</strong> When games, musicals, and ceremonies stream, they\u2019ll appear here live \u2014 and land in Catch Up afterward. We\u2019re covering '+schools.length+' schools &amp; colleges across the Valley:</div><div class="ss-roster">'+chips+'</div>';
+        var cap=14, shown=schools.slice(0,cap);
+        var chips=shown.map(function(sc){return '<span class="ss-chip"><b>'+esc(sc.shortName||sc.name)+'</b><em>'+esc(sc.city||'')+'</em></span>';}).join('');
+        var extra=schools.length>cap?'<span class="ss-chip ss-chip-more">+'+(schools.length-cap)+' more</span>':'';
+        html+='<div class="ss-offmsg"><strong>School sports return this fall.</strong> When games, musicals, and ceremonies stream, they’ll appear here live — and land in Catch Up afterward. We cover '+schools.length+' schools &amp; colleges across the Valley:</div><div class="ss-roster">'+chips+extra+'</div>';
       }
       g.innerHTML=html;
     });
-
-})();
+  })();
   </script>
 
   <!-- This Week renderer (upcoming events after today, from live-tonight.json) -->
@@ -463,20 +477,22 @@
     fetch('data/live-tonight.json').then(function(r){return r.json();}).then(function(rows){
       var g=document.getElementById('week-grid'); if(!g) return;
       var now=new Date(), endToday=new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59);
-      var up=rows.filter(function(e){return new Date(e.startsAt)>endToday;})
-                 .sort(function(a,b){return new Date(a.startsAt)-new Date(b.startsAt);});
-      if(!up.length){g.innerHTML='<div class="lt-empty">More events coming soon \u2014 check back.</div>';return;}
-      g.innerHTML=up.slice(0,8).map(function(e){
+      var up=rows.filter(function(e){return new Date(e.startsAt)>endToday;}).sort(function(a,b){return new Date(a.startsAt)-new Date(b.startsAt);});
+      if(!up.length){g.innerHTML='<div class="lt-empty">More events coming soon — check back.</div>';return;}
+      var cap=(window.innerWidth<=680)?4:8;
+      g.innerHTML=up.slice(0,cap).map(function(e){
         var s=new Date(e.startsAt);
         var soon=(s-now)>7*86400000;
         var cat=(e.category||''); var label=cat?cat.charAt(0).toUpperCase()+cat.slice(1):'Event';
         var tag=soon?'<span class="tag headline">Coming up</span>':'<span class="tag '+tcls(cat)+'">'+esc(label)+'</span>';
-        var where=esc(e.venue||'')+(e.neighborhood?' \u00b7 '+esc(e.neighborhood):'')+' \u00b7 '+tm(e.startsAt);
+        var where=esc(e.venue||'')+(e.neighborhood?' · '+esc(e.neighborhood):'')+' · '+tm(e.startsAt);
         var inner='<div class="datechip"><div class="d">'+s.getDate()+'</div><div class="m">'+MON[s.getMonth()]+'</div></div><div>'+tag+'<h3>'+esc(e.title)+'</h3><div class="where">'+where+'</div>'+(e.summary?'<p>'+esc(e.summary)+'</p>':'')+'</div>';
         return e.url?('<a class="event" href="'+esc(e.url)+'" target="_blank" rel="noopener" style="text-decoration:none">'+inner+'</a>'):('<div class="event">'+inner+'</div>');
       }).join('');
-    }).catch(function(){var g=document.getElementById('week-grid');if(g)g.innerHTML='<div class="lt-empty">This week\u2019s lineup is unavailable right now.</div>';});
+      if(up.length>cap){ g.insertAdjacentHTML('afterend','<div class="more-link"><a href="#subscribe">+ '+(up.length-cap)+' more this week — get the full list in the newsletter →</a></div>'); }
+    }).catch(function(){var g=document.getElementById('week-grid');if(g)g.innerHTML='<div class="lt-empty">This week’s lineup is unavailable right now.</div>';});
   })();
   </script>
+  <script>(function(){var t=document.querySelector('.nav-toggle'),n=document.querySelector('.nav');if(!t||!n)return;t.addEventListener('click',function(){n.classList.toggle('open');});n.addEventListener('click',function(e){if(e.target.closest('a'))n.classList.remove('open');});})();</script>
 </body>
 </html>
