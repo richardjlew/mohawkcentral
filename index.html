@@ -222,6 +222,8 @@
     .masthead .wrap{padding:34px 22px 44px}
     section{padding:30px 0}
   }
+  .signup-status{display:none;color:#fff;font-size:17px;font-weight:600;padding:18px 6px;line-height:1.5}
+  .signup-status .ok{color:var(--amber)}
 </style>
 </head>
 <body>
@@ -336,10 +338,11 @@
         <span class="badge">🚧 Launching this summer — get on the list first</span>
         <h2>The whole Valley, once a week.</h2>
         <p class="sub">Everything above, delivered free every Monday morning. Sign up now and you'll get the very first issue.</p>
-        <form action="https://buttondown.com/api/emails/embed-subscribe/mohawkcentral" method="post" target="_blank">
+        <form id="signup-form" action="https://buttondown.com/api/emails/embed-subscribe/mohawkcentral" method="post">
           <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required />
           <button type="submit">Sign me up</button>
         </form>
+        <div class="signup-status" id="signup-status"></div>
         <div class="fine">No spam, no selling your address. Unsubscribe anytime.</div>
       </div>
     </section>
@@ -494,5 +497,19 @@
   })();
   </script>
   <script>(function(){var t=document.querySelector('.nav-toggle'),n=document.querySelector('.nav');if(!t||!n)return;t.addEventListener('click',function(){n.classList.toggle('open');});n.addEventListener('click',function(e){if(e.target.closest('a'))n.classList.remove('open');});})();</script>
+  <script>
+  (function(){
+    var f=document.getElementById('signup-form'); if(!f) return;
+    var status=document.getElementById('signup-status');
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var input=f.querySelector('input[type=email]'); var email=(input.value||'').trim();
+      if(!email){return;}
+      var btn=f.querySelector('button'); btn.disabled=true; btn.textContent='Signing you up…';
+      function done(){ f.style.display='none'; if(status){ status.style.display='block'; status.innerHTML='<span class="ok">\u2713</span> Almost there \u2014 check your inbox to confirm your subscription.'; } }
+      fetch(f.action,{method:'POST',mode:'no-cors',body:new FormData(f)}).then(done).catch(done);
+    });
+  })();
+  </script>
 </body>
 </html>
